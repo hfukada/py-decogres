@@ -1,27 +1,22 @@
 from postgresql import postgres
-import testdb
 
-@postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/black"})
+@postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 def test1b():
-    print 'test1b black: ' + str(black)
+    return black 
 
 @postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 def test2b():
-    print 'test2b psql: ' + str(psql)
-    try:
-        print 'test2b black: ' + str(black)
-    except:
-        print 'black doesnt exist'
+    return psql
 
-@postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/black"})
+@postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 @postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 def test3b():
-    print 'test3b psql: ' + str(psql)
-    print 'test3b black: ' + str(black)
+    return [psql, black]
 
-print "\nbefore 1b"
-test1b()
-print "before 2b"
-test2b()
-print "before 3b"
-test3b()
+@postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
+def test4b():
+    with psql.cursor() as c:
+        c.execute("SELECT 42 AS AMAZING")
+    return c.fetchone()['AMAZING']
+
+

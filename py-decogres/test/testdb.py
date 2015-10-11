@@ -1,26 +1,26 @@
+import unittest
+import testdb as moretests
+
 from postgresql import postgres
 
 @postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/black"})
 def test1a():
-    print 'test1a: black: ' + str(black)
+    return black
 
 @postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 def test2a():
-    print 'test2a psql: ' + str(psql)
-    try:
-        print 'test2a black: ' + str(black)
-    except:
-        print 'black doesnt exist'
+    return psql
 
 @postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/black"})
 @postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 def test3a():
-    print 'test3a psql: ' + str(psql)
-    print 'test3a black: ' + str(black)
+    return [psql, black]
 
-print "before 1a"
-test1a()
-print "before 2a"
-test2a()
-print "before 3a"
-test3a()
+class DecoratorTests(unittest.TestCase):
+    def test_database_continuity():
+        self.assertTrue(test1a() == moretests.test2a())
+        self.assertTrue(test1b() == moretests.test2b())
+        self.assertTrue(test1c() == moretests.test3c())
+
+    def test_database_connectivity():
+        self.assertTrue(test4b() == 42)
