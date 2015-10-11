@@ -1,11 +1,24 @@
 import psycopg2
 import inspect
-import functools
+from functools import wraps
 
 from contextlib import contextmanager
 
 from psycopg2 import pool
 from psycopg2.extras import RealDictCursor
+
+
+def memoize(function):
+    memo = {}
+    @wraps(function)
+    def wrapper(*args):
+        if args in memo:
+            return memo[args]
+        else:
+            rv = function(*args)
+            memo[args] = rv
+            return rv
+    return wrapper
 
 class DatabasePool:
     """
@@ -24,7 +37,7 @@ class DatabasePool:
         self._pool = connection_pool_type(mincount, maxcount, connection_url, cursor_factory=cursor_factory, **kwargs)
 
     @classmethod
-    @functools.lru_cache(maxsize=128, typed=False)
+    @memoize
     def recall(cls, **kwargs):
         return cls(**kwargs)
 
