@@ -1,4 +1,1 @@
-frozendict>=0.4
 psycopg2==2.6.1
-xlrd>=0.9.3
-xlwt>=0.7.5
