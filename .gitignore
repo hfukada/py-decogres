@@ -2,5 +2,6 @@ build
 dist
 venv
 env
+decogres.egg-info
 *.pyc
 *.xml
