@@ -1,4 +1,5 @@
-# Decogres (python **Deco**rator for Post**gres**SQL)
+# Decogres
+(python **Deco**rator for Post**gres**SQL)
 ## Description
 This is a small module for maintaining connection pools for an application that connect to a single or connect to multiple databases.
 
