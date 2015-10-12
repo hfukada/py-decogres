@@ -11,11 +11,11 @@ from psycopg2.extras import RealDictCursor
 def memoize(function):
     memo = {}
     @wraps(function)
-    def wrapper(*args):
+    def wrapper(*args, **kwargs):
         if args in memo:
             return memo[args]
         else:
-            rv = function(*args)
+            rv = function(*args, **kwargs)
             memo[args] = rv
             return rv
     return wrapper
