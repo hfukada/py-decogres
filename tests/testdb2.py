@@ -1,15 +1,15 @@
-import decorator
+from decogres.decorator import postgres
 
-@decorator.postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/"})
+@postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 def test1b():
     return black 
 
-@decorator.postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
+@postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 def test2b():
     return psql
 
-@decorator.postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/"})
-@decorator.postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
+@postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/"})
+@postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 def test3b():
     return [psql, black]
 

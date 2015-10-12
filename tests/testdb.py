@@ -1,18 +1,18 @@
 import unittest
-import ../decorator
+from decogres.decorator import postgres
 
 import testdb2 as moretests
 
-@decorator.postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/black"})
+@postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/black"})
 def test1a():
     return black
 
-@decorator.postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
+@postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 def test2a():
     return psql
 
-@decorator.postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/black"})
-@decorator.postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
+@postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/black"})
+@postgres(**{'name': 'psql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 def test3a():
     return [psql, black]
 
