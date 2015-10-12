@@ -1,24 +1,20 @@
 import psycopg2
 import inspect
-from functools import wraps
 
 from contextlib import contextmanager
-
+from functools import wraps
 from psycopg2 import pool
 from psycopg2.extras import RealDictCursor
 
-
-def memoize(function):
-    memo = {}
-    @wraps(function)
-    def wrapper(*args, **kwargs):
-        if args in memo:
-            return memo[args]
-        else:
-            rv = function(*args, **kwargs)
-            memo[args] = rv
-            return rv
-    return wrapper
+def memoize(func):
+    cache = {}
+    @wraps(func)
+    def wrap(*args, **kwargs):
+        key = hash(str(args) + str(kwargs))
+        if key not in cache:
+            cache[key] = func(*args, **kwargs)
+        return cache[key]
+    return wrap
 
 class DatabasePool:
     """
@@ -38,7 +34,7 @@ class DatabasePool:
 
     @classmethod
     @memoize
-    def recall(cls, **kwargs):
+    def recall(cls, *args, **kwargs):
         return cls(**kwargs)
 
     def __repr__(self):

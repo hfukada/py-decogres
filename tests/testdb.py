@@ -8,10 +8,9 @@ def test1a():
     return black
 
 @postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/black"})
-@postgres(**{'name': 'postgresql', 'connection_url': "postgresql://postgres:postgres@localhost/"})
+@postgres(**{'name': 'ppp', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 def test2a():
-    print 'postgresql ' + str(postgresql) + ' black ' + str(black)
-    return [postgresql, black]
+    return [ppp, black]
 
 class DecoratorTests(unittest.TestCase):
 

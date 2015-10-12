@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from setuptools import setup
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 with open('requirements.txt') as f:
         required = f.read().splitlines()
