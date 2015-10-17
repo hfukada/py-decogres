@@ -3,5 +3,6 @@ dist
 venv
 env
 decogres.egg-info
+py_decogres.egg-info
 *.pyc
 *.xml
