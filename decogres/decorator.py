@@ -1,10 +1,15 @@
 from postgresql import DatabasePool
 from pprint import pprint
 
+cache = {}
+
 class postgres(object):
     def __init__(self, *args, **kwargs):
-        self.db_args = kwargs
-        self.db = DatabasePool.recall(*args, **self.db_args)
+        key = hash(str(args) + str(kwargs))
+        if key not in cache:
+            cache[key] = DatabasePool(*args, **kwargs)
+        self.db_name = kwargs['name']
+        self.db = cache[key]
 
     def __call__(self, db_call):
         def wrapped_db_call(*args, **kwargs):
@@ -14,10 +19,13 @@ class postgres(object):
             return db_call(*args, **kwargs)
         return wrapped_db_call
 
-#@postgres(**{'name': 'ppp', 'connection_url': "postgresql://postgres:postgres@localhost/"})
 #@postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/black"})
-#def test2a():
-#    print 'ppp ' + str(ppp) + ' black ' + str(black)
-#    return [ppp, black]
+#def test1a():
+#    return black
 #
-#test2a()
+#@postgres(**{'name': 'black', 'connection_url': "postgresql://postgres:postgres@localhost/black"})
+#@postgres(**{'name': 'ppp', 'connection_url': "postgresql://postgres:postgres@localhost/"})
+#def test2a():
+#    return [ppp, black]
+#print test1a()
+#print test2a()

@@ -6,17 +6,7 @@ from functools import wraps
 from psycopg2 import pool
 from psycopg2.extras import RealDictCursor
 
-def memoize(func):
-    cache = {}
-    @wraps(func)
-    def wrap(*args, **kwargs):
-        key = hash(str(args) + str(kwargs))
-        if key not in cache:
-            cache[key] = func(*args, **kwargs)
-        return cache[key]
-    return wrap
-
-class DatabasePool:
+class DatabasePool(object):
     """
     Creates and manages a pool of connections to a database.
     - connection_pool_type is an AbstractConnectionPool
@@ -31,11 +21,6 @@ class DatabasePool:
         self.connection_url = connection_url
         self.name = name or connection_url
         self._pool = connection_pool_type(mincount, maxcount, connection_url, cursor_factory=cursor_factory, **kwargs)
-
-    @classmethod
-    @memoize
-    def recall(cls, *args, **kwargs):
-        return cls(**kwargs)
 
     def __repr__(self):
         return "<%d: %s: %s>" %(id(self), self.__class__.__name__, self.name)
